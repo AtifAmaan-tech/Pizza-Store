@@ -6,9 +6,9 @@ class UserModel(Base):
     __tablename__ = "user"
 
     id = Column(Integer,primary_key=True)
-    username = Column(String(50), nullable = False)
-    email =  Column(String(90), nullable = False)
-    password =  Column(String(100), nullable = False)
+    username = Column(String(255), nullable = False)
+    email =  Column(String(255), nullable = False)
+    password =  Column(String(255), nullable = False)
     is_active = Column(Boolean, default = False)
     is_staff = Column(Boolean, default=False)
     order = relationship('OrderModel', back_populates='user')
