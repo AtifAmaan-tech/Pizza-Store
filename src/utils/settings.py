@@ -7,6 +7,10 @@ class Setting(BaseSettings):
     )
     
     DATABASE_URL : str
+    JWT_SECRET: str
+    REFRESH_TOKEN_EXPIRY_TIME: int
+    ACCESS_TOKEN_EXPIRY_TIME: int
+    ALGORITHM: str
 
 
 settings = Setting()

@@ -9,7 +9,6 @@ class Register(BaseModel):
     email: Annotated[str, StringConstraints(max_length=_MaxLen)]
     password: str
     is_active: Optional[bool] = None
-    is_staff: Optional[bool] = None
 
     class Config:
         from_attributes = True
@@ -18,13 +17,12 @@ class Register(BaseModel):
                 "username": "atifamaan",
                 "email": "atifamaan@gmail.com",
                 "password": "12345678",
-                "is_active": False,
-                "is_staff": True
+                "is_active": False
             }
         }
 
 
-class RegisterResponse(BaseModel):
+class UserResponse(BaseModel):
     username: str
     email: str
 
@@ -33,5 +31,19 @@ class RegisterResponse(BaseModel):
             "example": {
                 "username": "atifamaan",
                 "email": "atifamaan@gmail.com",
+            }
+        }
+
+
+class Login(BaseModel):
+    email: str
+    password: str
+
+    class Config:
+        from_attributes = True
+        json_schema_extra = {
+            "example": {
+                "email": "atifamaan@gmail.com",
+                "password": "12345678"
             }
         }
