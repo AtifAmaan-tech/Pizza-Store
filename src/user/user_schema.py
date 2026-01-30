@@ -23,12 +23,14 @@ class Register(BaseModel):
 
 
 class UserResponse(BaseModel):
+    id: int
     username: str
     email: str
 
     class Config:
         json_schema_extra = {
             "example": {
+                "id": 1,
                 "username": "atifamaan",
                 "email": "atifamaan@gmail.com",
             }

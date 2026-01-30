@@ -1,28 +1,13 @@
 from src.utils.db import Base
-from sqlalchemy_utils.types import ChoiceType
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String,Integer, ForeignKey
+from sqlalchemy import Column,Integer,String, ForeignKey
 
 class OrderModel(Base):
     __tablename__ = "order"
-
-    ORDER_STATUS = (
-        ('PENDING','pending'),
-        ('IN-TRANSIT', 'in-transit'),
-        ('DELIVERED','delivered')
-    )
-
-    PIZZA_SIZES = (
-        ('SMALL', 'small'),
-        ('MEDIUM', 'medium'),
-        ('LARGE', 'large'),
-        ('EXTRA-LARGE', 'extra-large')
-    )
-
     id = Column(Integer, primary_key=True)
     quantity = Column(Integer,nullable=False)
-    order_status = Column(ChoiceType(choices=ORDER_STATUS), default = 'pending')
-    pizza_size = Column(ChoiceType(choices = PIZZA_SIZES), default = 'small')
+    order_status = Column(String(50), default='pending')
+    pizza_size = Column(String(50), default='small')
     user_id = Column(Integer, ForeignKey("user.id") )
     user = relationship("UserModel", back_populates='order')
 

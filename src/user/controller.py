@@ -45,8 +45,7 @@ async def register_user(user:Register,db:Session):
         username = user.username,
         email = user.email,
         password = generate_password_hash(user.password),
-        is_active = user.is_active,
-        is_staff = user.is_staff
+        is_active = user.is_active
     )
 
     db.add(new_user)
@@ -74,8 +73,14 @@ async def login_user(body:Login, db:Session):
 async def authentication(request:Request, db:Session):
     try: 
         token = request.headers.get("Authorization")
+        if not token:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                detail="Authorization header missing")
         token = token.split(' ')[-1]
         data = jwt.decode(token, settings.JWT_SECRET, algorithms=settings.ALGORITHM)
+        if not data["type"] == "access":
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                detail="Invalid token type")
         user_id = data["_id"]
         user = db.query(UserModel).get(user_id)
 
@@ -87,7 +92,6 @@ async def authentication(request:Request, db:Session):
     except InvalidTokenError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="user unauthorized")
     
-
 async def check_refresh_token(requst:Request, db:Session):
     try:
         header = requst.headers.get("Authorization")
