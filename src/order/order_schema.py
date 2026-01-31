@@ -3,11 +3,9 @@ from typing import Optional, Literal
 
 
 class OrderSchema(BaseModel):
-    id: Optional[int] = None
     quantity: int 
     order_status: Literal['pending', 'in-transit', 'delivered'] = None
     pizza_size: Literal['small', 'medium', 'large', 'extra-large'] = None
-    user_id: int = None
 
     class Config:
         from_attributes = True
@@ -56,6 +54,7 @@ class PatchOrder(BaseModel):
 class PatchOrderResponse(BaseModel):
     id: int
     quantity: int
+    order_status: str
     pizza_size: str
 
     class Config:
@@ -65,5 +64,16 @@ class PatchOrderResponse(BaseModel):
                 "id": 1,
                 "order_size": "pending",
                 "pizza_size": "large"
+            }
+        }
+
+class OrderStatusUpdate(BaseModel):
+    order_status: Literal['pending', 'in-transit', 'delivered']
+
+    class Config:
+        from_attributes = True
+        json_schema_extra = {
+            "example": {
+                "order_status" : "delivered"
             }
         }
